@@ -1,0 +1,53 @@
+{
+    "course-list": [
+        {
+            "course-type":"CS",
+            "course-code":1234,
+            "course-name": "CS1234 React JS",
+            "course-title": "Full Stack software developer",
+            "course-pic": "https://pbs.twimg.com/profile_images/1785867863191932928/EpOqfO6d_400x400.png"
+        },
+        {
+            "course-type":"CS",
+            "course-code":1110,
+            "course-name": "CS1110 Java Basics",
+            "course-title": "Intro to computer Science",
+            "course-pic": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3S9FqOWEjqGZPQ98L55jzxu9OXbJqwXx_Gw&s"
+        },
+        {
+            "course-type":"CS",
+            "course-code":2100,
+            "course-name": "CS2100 Data Structure",
+            "course-title": "Data Structure",
+            "course-pic": "https://media.licdn.com/dms/image/D4D12AQF_Wj1fEsaRsA/article-cover_image-shrink_720_1280/0/1690875038253?e=2147483647&v=beta&t=J8ZSd7hF0_ZfaeIYUHVNs35NgZ28nlzOR9aZ5v3kSDQ"
+        },        
+        {
+            "course-type":"CS",
+            "course-code":3200,
+            "course-name":"CS3200 Operating System & File Management",
+            "course-title":"Operating System",
+            "course-pic": "https://artoftesting.com/wp-content/uploads/2022/02/operating-system.png"
+        },        
+        {
+            "course-type":"CS",
+            "course-code":3500,
+            "course-name":"CS3500 Security",
+            "course-title":"Cyber Security",
+            "course-pic": "https://www.technologysolutions.net/wp-content/uploads/2023/09/pros-and-cons-scaled-2560x1280.jpeg"
+        },        
+        {
+            "course-type":"CS",
+            "course-code":3350,
+            "course-name":"CS3350 Encrypt & Decrypt",
+            "course-title":"Cryptography",
+            "course-pic": "https://online.york.ac.uk/wp-content/uploads/2023/10/Cryptography.jpg"
+        },
+        {
+            "course-type":"CS",
+            "course-code":4100,
+            "course-name":"CS4100 AI",
+            "course-title":"Intro to Artificial Intelligence",
+            "course-pic": "https://www.investopedia.com/thmb/4K3hIci9bUF3521OUjC-cCG3NpE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/terms_a_artificial-intelligence-ai_asp-FINAL-ddba8ac599f3438d8064350d2ee1ae5a.jpg"
+        }
+    ]
+}
