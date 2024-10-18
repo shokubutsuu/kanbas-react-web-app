@@ -4,7 +4,12 @@ import AssignmentControls from "./AssignmentControls";
 import Note from "./Note";
 import { BsGripVertical } from 'react-icons/bs';
 import { MdOutlineAssignment } from "react-icons/md";
+import * as db from "../../Database";
+import { useParams, useLocation } from "react-router";
 export default function Assignments() {
+  const {pathname} = useLocation();
+  const {cid} = useParams();
+  const assignments = db.assignemnts;
   return (
     <div>
       <AssignmentControls /><br />
@@ -16,29 +21,36 @@ export default function Assignments() {
             <ModuleControlButtons />
             <Note />
           </div>
+
           <ul className="wd-assignment-list list-group rounded-0">
-            <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
-              <div className="row">
-                <div className="col-2 center-icons">
-                  <BsGripVertical className="me-2 fs-3" />
-                  <MdOutlineAssignment className="me-2 fs-3" style={{ color: 'green' }} />
+            {
+              assignments.filter((assignment) => assignment.course === cid).map((assignment) =>(
+                <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
+                <div className="row">
+                  <div className="col-2 center-icons">
+                    <BsGripVertical className="me-2 fs-3" />
+                    <MdOutlineAssignment className="me-2 fs-3" style={{ color: 'green' }} />
+                  </div>
+                  <div className='col-8'>
+                    <a className="wd-assignment-link"
+                      href={'#' +pathname+'/'+ assignment._id}>
+                      {assignment._id} - {assignment.title}
+                    </a>
+                    <p><span style={{ color: 'red' }}>Multiple Modules</span> | <span style={{ fontWeight: 'bold' }}>Not available until </span> {new Date(assignment.available).toLocaleString()} | <span style={{ fontWeight: 'bold' }}>Due</span> {new Date(assignment.due).toLocaleString()} | {assignment.points} pts</p>
+                  </div>
+  
+                  <div className='col-2 center-icons'>
+                    <LessonControlButtons />
+                  </div>
                 </div>
-                <div className='col-8'>
-                  <a className="wd-assignment-link"
-                    href="#/Kanbas/Courses/1234/Assignments/a1">
-                    A1 - ENV + HTML
-                  </a>
-                  <p><span style={{ color: 'red' }}>Multiple Modules</span> | <span style={{ fontWeight: 'bold' }}>Not available until </span> May 6 at 12:00 am | <span style={{ fontWeight: 'bold' }}>Due</span> May 13 at 11:59pm | 100 pts</p>
-                </div>
+  
+              </li>
+              )
 
-                <div className='col-2 center-icons'>
-                  <LessonControlButtons />
-                </div>
-              </div>
+              )
+            }
 
-            </li>
-
-            <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
+            {/* <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
               <div className="row">
                 <div className="col-2 center-icons">
                   <BsGripVertical className="me-2 fs-3" />
@@ -57,9 +69,9 @@ export default function Assignments() {
                 </div>
               </div>
 
-            </li>
+            </li> */}
 
-
+{/* 
             <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
               <div className="row">
                 <div className="col-2 center-icons">
@@ -79,7 +91,7 @@ export default function Assignments() {
                 </div>
               </div>
 
-            </li>
+            </li> */}
           </ul>
         </li>
 

@@ -1,19 +1,17 @@
+import {useParams} from "react-router";
+import * as db from "../../Database"
+
 export default function AssignmentEditor() {
+    const {aid} = useParams();
+    const assignments = db.assignemnts;
+    const assignment = assignments.find(assignment => assignment._id === aid)
+
     return (
         <div id="wd-assignments-editor">
             <label htmlFor="wd-name">Assignment Name</label><br />
             <input type="text" className="form-control" id="wd-name" value="A1 - ENV + HTML" /><br />
             <textarea id="wd-description" className="form-control" style={{ height: "100px" }}>
-                The assignment is available online
-                Submit a link to the landing page of your Web application running on Netlify.
-
-                The landing page should include the following:
-
-                Your full name and section
-                Links to each of the lab assignments
-                Link to the Kanbas application
-                Links to all relevant source code repositories
-                The Kanbas application should include a link to navigate back to the landing page.
+                {assignment?.description}
             </textarea>
             <br />
             <table>
@@ -22,7 +20,7 @@ export default function AssignmentEditor() {
                         <label htmlFor="wd-points">Points</label>
                     </td>
                     <td>
-                        <input id="wd-points" value={100} className="form-control" />
+                        <input id="wd-points" value={assignment?.points} className="form-control" />
                     </td>
                 </tr>
                 <tr>
@@ -104,17 +102,17 @@ export default function AssignmentEditor() {
                             </div>
                             <div>
                                 <label>Due</label><br />
-                                <input type="date" id="wd-due-date" name="due"></input>
+                                <input type="date" id="wd-due-date" name="due" value={assignment?.due.split('T')[0]}></input>
                             </div>
                             <div className="row">
                                 <div className="col-6">
                                     <label>Available From</label><br />
-                                    <input type="date" id="wd-available-from" name="due"></input>
+                                    <input type="date" id="wd-available-from" name="available-from" value = {assignment?.available.split('T')[0]}></input>
                                 </div>
 
                                 <div className="col-6">
                                     <label>Until</label><br />
-                                    <input type="date" id="wd-available-until" name="due"></input>
+                                    <input type="date" id="wd-available-until" name="available-until"></input>
                                 </div>
                             </div>
 
