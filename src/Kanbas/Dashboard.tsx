@@ -50,7 +50,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             onClick={updateCourse} id="wd-update-course-click">
             Update
           </button>
-
         </h5><br />
         <input value={course.name} className="form-control mb-2"
           onChange={(e) => setCourse({ ...course, name: e.target.value })} />
@@ -87,7 +86,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                         className="btn btn-warning me-2 float-end" >
                         Edit
                       </button>
-9
                     </div>
                   </Link>
                 </div>
