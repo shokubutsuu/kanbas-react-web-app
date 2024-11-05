@@ -8,7 +8,11 @@
         "assignTo": "Everyone",
         "available": "2023-05-06T00:00:00.000Z",
         "due": "2023-05-13T23:59:00.000Z",
-        "description": "The assignment is available online \nSubmit a link to the landing page of your Web application running on Netlify.\nThe landing page should include the following:\n\tYour full name and section\n\tLinks to each of the lab assignments\n\tLink to the Kanbas application\n\tLinks to all relevant source code repositories\n\tThe Kanbas application should include a link to navigate back to the landing page."
+        "description": "The assignment is available online \nSubmit a link to the landing page of your Web application running on Netlify.\nThe landing page should include the following:\n\tYour full name and section\n\tLinks to each of the lab assignments\n\tLink to the Kanbas application\n\tLinks to all relevant source code repositories\n\tThe Kanbas application should include a link to navigate back to the landing page.",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A102",
@@ -19,7 +23,11 @@
         "assignTo": "Selected Students",
         "available": "2023-05-13T00:00:00.000Z",
         "due": "2023-05-20T23:59:00.000Z",
-        "description": "this is the default description for A102"
+        "description": "this is the default description for A102",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A103",
@@ -30,7 +38,11 @@
         "assignTo": "Selected Students",
         "available": "2023-05-20T00:00:00.000Z",
         "due": "2023-05-27T23:59:00.000Z",
-        "description": "this is the default description for A103"
+        "description": "this is the default description for A103",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A201",
@@ -41,7 +53,11 @@
         "assignTo": "Selected Students",
         "available": "2023-05-06T00:00:00.000Z",
         "due": "2023-05-13T23:59:00.000Z",
-        "description": "this is the default description for A201"
+        "description": "this is the default description for A201",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A202",
@@ -52,7 +68,11 @@
         "assignTo": "Everyone",
         "available": "2023-05-13T00:00:00.000Z",
         "due": "2023-05-20T23:59:00.000Z",
-        "description": "this is the default description for A202"
+        "description": "this is the default description for A202",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A203",
@@ -63,7 +83,11 @@
         "assignTo": "Selected Students",
         "available": "2023-05-20T00:00:00.000Z",
         "due": "2023-05-27T23:59:00.000Z",
-        "description": "this is the default description for A203"
+        "description": "this is the default description for A203",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A301",
@@ -78,7 +102,11 @@
         "assignTo": "Selected Students",
         "available": "2023-05-20T00:00:00.000Z",
         "due": "2023-05-27T23:59:00.000Z",
-        "description": "this is the default description for A301"
+        "description": "this is the default description for A301",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A302",
@@ -89,7 +117,11 @@
         "assignTo": "Everyone",
         "available": "2023-05-13T00:00:00.000Z",
         "due": "2023-05-20T23:59:00.000Z",
-        "description": "this is the default description for A302"
+        "description": "this is the default description for A302",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     },
     {
         "_id": "A303",
@@ -100,6 +132,10 @@
         "assignTo": "Selected Students",
         "available": "2023-05-20T00:00:00.000Z",
         "due": "2023-05-27T23:59:00.000Z",
-        "description": "this is the default description for A303"
+        "description": "this is the default description for A303",
+        "assignmentGroup":["ASSI","PROJ"],
+        "displayAs": "PERC",
+        "submissionType": "INP",
+        "onlineEntry":["text","url","media"]
     }
 ]

@@ -1,12 +1,3 @@
-// export default function CourseStatus() {
-//     return (
-//       <div id="wd-course-status">
-//         <h2>Course Status</h2>
-//         <button>Unpublish</button> <button>Publish</button><br/><br/>
-//         <button>Import Existing Content</button><br/>
-//         <button>Import from Commons</button><br/>
-//       </div>
-//   );}
 
 import { MdDoNotDisturbAlt } from "react-icons/md";
 import { FaCheckCircle, FaHome } from "react-icons/fa";
@@ -15,7 +6,7 @@ import { GrAnnounce } from "react-icons/gr";
 import { LiaFileImportSolid } from "react-icons/lia";
 import { TbFileAnalytics } from "react-icons/tb";
 import { IoNotifications } from "react-icons/io5";
-{/* Find more icons */ }
+
 export default function CourseStatus() {
   return (
     <div id="wd-course-status" style={{ width: "300px" }}>

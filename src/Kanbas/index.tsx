@@ -46,7 +46,8 @@ export default function Kanbas() {
                 setCourse={setCourse}
                 addNewCourse={addNewCourse}
                 deleteCourse={deleteCourse}
-                updateCourse={updateCourse} />
+                updateCourse={updateCourse} 
+                />
             </ProtectedRoute>
           } />
           <Route path="Courses/:cid/*" element={
