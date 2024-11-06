@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Courses from "./Courses";
 import * as db from "./Database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './styles.css'
 import ProtectedRoute from "./Account/ProtectedRoute";
 
@@ -21,16 +21,20 @@ export default function Kanbas() {
     setCourses(courses.filter((course) => course._id !== courseId));
   };
   const updateCourse = () => {
+    const newCourses = courses.map((c) => {
+      if (c._id === course._id) {
+        return course;
+      } else {
+        return c;
+      }
+    })
     setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
+      newCourses
     );
   };
+  useEffect(() => {
+    console.log(courses)
+  }, [courses])
   return (
     <div id="wd-kanbas">
       <KanbasNavigation />
@@ -46,15 +50,15 @@ export default function Kanbas() {
                 setCourse={setCourse}
                 addNewCourse={addNewCourse}
                 deleteCourse={deleteCourse}
-                updateCourse={updateCourse} 
-                />
+                updateCourse={updateCourse}
+              />
             </ProtectedRoute>
           } />
           <Route path="Courses/:cid/*" element={
             <ProtectedRoute>
-            <Courses courses={courses} />
+              <Courses courses={courses} />
             </ProtectedRoute>
-            } />
+          } />
         </Routes>
       </div>
     </div>);

@@ -12,58 +12,16 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     updateCourse: () => void;
   }) {
   {
-    const [courses, setCourses] = useState<any[]>(db.courses);
     const [enrolled, setEnrolled] = useState<any>();
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>();
     const [enrollments, setEnrollments] = useState<any[]>(db.enrollments);
 
-    const [course, setCourse] = useState<any>({
-      _id: "0", name: "New Course", number: "New Number",
-      startDate: "2023-09-10", endDate: "2023-12-15",
-      image: "/images/reactjs.jpg", description: "New Description"
-    });
-    const addNewCourse = () => {
-      const newCourse = {
-        ...course,
-        _id: new Date().getTime().toString()
-      };
-      setCourses([...courses, { ...course, ...newCourse }]);
-    };
-    const deleteCourse = (courseId: string) => {
-      setCourses(courses.filter((course) => course._id !== courseId));
-    };
-    const updateCourse = () => {
-      setCourses(
-        courses.map((c) => {
-          if (c._id === course._id) {
-            return course;
-          } else {
-            return c;
-          }
-        })
-      );
-    };
-
-
-    useEffect(
-      () => {
-        setEnrolled("Enrollment");
-        setEnrolledCourses(courses.filter(
-          (course) =>
-            enrollments.some(
-              (enrollment) =>
-                enrollment.user === currentUser._id && enrollment.course === course._id
-            )
-        ));
-      }, []
-    )
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     let haveEditAccess = currentUser.role === "FACULTY"
-
+    
     const getRandomInt = (max: any) => {
       return Math.floor(Math.random() * max);
     }
-
     const handleEnrollment = () => {
       if (enrolled === "Enrollment") {
         setEnrolled("Enrolled")
@@ -90,6 +48,22 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
       setEnrolledCourses(enrolledCourses?.filter((c) => c._id !== e.target.name));
       setEnrollments(enrollments?.filter((enrollment) => (!(enrollment.course === e.target.name && enrollment.user === currentUser._id))))
     }
+
+    useEffect(
+      () => {
+        setEnrolled("Enrollment");
+        if(haveEditAccess){
+          setEnrolledCourses(courses);
+        }else
+        {setEnrolledCourses(courses.filter(
+          (course) =>
+            enrollments.some(
+              (enrollment) =>
+                enrollment.user === currentUser._id && enrollment.course === course._id
+            )
+        ));}
+      }
+    )
 
     console.log("enrolled courses: ", enrolledCourses)
 
