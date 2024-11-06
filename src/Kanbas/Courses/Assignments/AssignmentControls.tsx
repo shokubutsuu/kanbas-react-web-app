@@ -1,11 +1,18 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
-import {CiSearch} from "react-icons/ci"
+import {CiSearch} from "react-icons/ci";
+import {useLocation, useNavigate } from "react-router";
 
 export default function AssignmentControls() {
+  const navigate = useNavigate();
+  const {pathname} = useLocation();
+  const handleAddAssignment = ()=>{
+    navigate(pathname+"/AddAssignment");
+  }
+
   return (
     <div id="wd-modules-controls" className="text-nowrap">
-      <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
+      <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end" onClick={handleAddAssignment}>
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Assignments
       </button>
