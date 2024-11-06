@@ -21,5 +21,6 @@ export default function Labs() {
         </Routes>
       </div>
     </Provider>
+
   );
 }
