@@ -24,8 +24,10 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     }
     const handleEnrollment = () => {
       if (enrolled === "Enrollment") {
+        console.log("enrollment clicked");
         setEnrolled("Enrolled")
       } else if (enrolled === "Enrolled") {
+        console.log("enrolled clicked");
         setEnrolled("Enrollment")
       }
     }
@@ -64,9 +66,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
         ));}
       }
     )
-
-    console.log("enrolled courses: ", enrolledCourses)
-
 
     return (
       <div id="wd-dashboard">

@@ -22,6 +22,7 @@ export default function AssignmentEditor() {
             }
         } else {
             setAssignment({
+                _id: new Date().getTime().toString(),
                 course: cid,
             });
             setIsEditing(false);
@@ -166,17 +167,17 @@ export default function AssignmentEditor() {
                             </div>
                             <div>
                                 <label>Due</label><br />
-                                <input type="date" id="wd-due-date" name="due" onChange={handleInputChange} value={(isEditing && assignment?.due) ? assignment?.due.split('T')[0]: ""}></input>
+                                <input type="date" id="wd-due-date" name="due" onChange={handleInputChange} value={(isEditing && assignment?.due) ? assignment?.due.split('T')[0] : ""}></input>
                             </div>
                             <div className="row">
                                 <div className="col-6">
                                     <label>Available From</label><br />
-                                    <input type="date" id="wd-available-from" name="available" onChange={handleInputChange} value={(isEditing && assignment.available) ? assignment?.available.split('T')[0]: ""}></input>
+                                    <input type="date" id="wd-available-from" name="available" onChange={handleInputChange} value={(isEditing && assignment.available) ? assignment?.available.split('T')[0] : ""}></input>
                                 </div>
 
                                 <div className="col-6">
                                     <label>Until</label><br />
-                                    <input type="date" id="wd-available-until" onChange={handleInputChange} name="until" value={(isEditing && assignment.until) ? assignment?.until.split('T')[0]: ""}></input>
+                                    <input type="date" id="wd-available-until" onChange={handleInputChange} name="until" value={(isEditing && assignment.until) ? assignment?.until.split('T')[0] : ""}></input>
                                 </div>
                             </div>
 
