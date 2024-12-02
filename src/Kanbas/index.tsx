@@ -18,8 +18,8 @@ export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
     try {
-      const response = await userClient.findMyCourses();
-      setCourses(response.data);
+      const courses = await userClient.findMyCourses();
+      setCourses(courses);
     } catch (error) {
       console.error(error);
     }
@@ -31,8 +31,8 @@ export default function Kanbas() {
 
   const fetchAllCourses = async() =>{
     try{
-      const response = await courseClient.fetchAllCourses();
-      setAllCourses(response.data);
+      const data = await courseClient.fetchAllCourses();
+      setAllCourses(data);
     }catch (error){
       console.error(error);
     }
@@ -61,7 +61,7 @@ export default function Kanbas() {
   };
 
   useEffect(() => {
-    console.log(courses)
+    // console.log(courses)
   }, [courses])
   return (
     <Session>

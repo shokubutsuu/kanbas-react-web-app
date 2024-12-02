@@ -9,7 +9,7 @@ export const createCourse = async (course: any) => {
   };
   
 export const findMyCourses = async () => {
-    const { data } = await axiosWithCredentials.get(`${USERS_API}/current/courses`);
+    const { data } = await axiosWithCredentials.get(`${USERS_API}/current/courses`); 
     return data;
 };
 
@@ -35,10 +35,10 @@ export const updateUser = async (user: any) => {
     return response.data;
 };
 export const enrollUserInCourse = async (courseId: string)=>{
-    const response = await axiosWithCredentials.post(`${REMOTE_SERVER}/enroll/${courseId}`);
+    const response = await axiosWithCredentials.post(`${REMOTE_SERVER}/api/enroll/${courseId}`);
     return response.data;
 } 
 export const unenrollUserInCourse = async ( courseId: string)=>{
-    const response = await axiosWithCredentials.post(`${REMOTE_SERVER}/unenroll/${courseId}`);
+    const response = await axiosWithCredentials.post(`${REMOTE_SERVER}/api/unenroll/${courseId}`);
     return response.data;
 } 

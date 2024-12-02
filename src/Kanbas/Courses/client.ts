@@ -4,6 +4,7 @@ const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 const ASSIGNMENTS_API = `${REMOTE_SERVER}/api/assignments`;
 export const fetchAllCourses = async () => {
     const { data } = await axios.get(COURSES_API);
+    console.log("trying to print fetched courses",data);
     return data;
 };
 export const deleteCourse = async (id: string) => {
@@ -21,7 +22,7 @@ export const findModulesForCourse = async (courseId: string) => {
 };
 export const findAssignmentsForCourse = async (courseId: string) => {
     const response = await axios
-        .get(`${ASSIGNMENTS_API}/${courseId}/assignments`);
+        .get(`${COURSES_API}/${courseId}/assignments`);
     return response.data;
 };
 export const createModuleForCourse = async (courseId: string, module: any) => {
@@ -33,13 +34,13 @@ export const createModuleForCourse = async (courseId: string, module: any) => {
 };
 export const createAssignmentForCourse = async (courseId: string, assignment: any)=>{
     const response = await axios.post(
-        `${ASSIGNMENTS_API}/${courseId}/assignments`, assignment
+        `${COURSES_API}/${courseId}/assignments`, assignment
     );
     return response.data;
 }
 
 export const findEnrolledUsersForCourse = async (courseId: string) =>{
-    const response = await axios.post(
+    const response = await axios.get(
         `${COURSES_API}/${courseId}/users` );
     return response.data;
 }

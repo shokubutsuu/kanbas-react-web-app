@@ -20,37 +20,38 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
     
     const enrollUserToCourse = async (courseId: string) =>{
       const response = await userClient.enrollUserInCourse(courseId);
-      return response.data;
+      return response;
     }
     const unenrollUserToCourse = async (courseId: string) =>{
       const response = await userClient.unenrollUserInCourse(courseId);
-      return response.data;
+      return response;
     }
 
     const handleEnrollment = () => {
       if (isEnrolled) {
         console.log("enrollment clicked");
-        setIsEnrolled(false)
+        setIsEnrolled(false);
       } else {
         console.log("enrolled clicked");
-        setIsEnrolled(true)
+        setIsEnrolled(true);
       }
     }
     const handleEnrollClick = async (e: any) => {
-      if (!enrolledCourses?.find((c) => c._id === e.target.name)) {
-        try {
-          const enrollments = await enrollUserToCourse(e.target.name); // Await the result
-          const addCourse = courses.filter((c) => c._id === e.target.name); // Filter courses
-          setEnrolledCourses([...enrolledCourses, ...addCourse]); // Update state properly
-        } catch (error) {
-          console.error("Failed to enroll in the course:", error);
-        }
+      try {
+        const enrollments = await enrollUserToCourse(e.target.name); 
+        setEnrolledCourses(enrollments); // Update state properly
+      } catch (error) {
+        console.error("Failed to enroll in the course:", error);
       }
     };
 
     const handleUnenrollClick = async(e: any) => {
-      await unenrollUserToCourse(e.target.name)
-      setEnrolledCourses(enrolledCourses?.filter((c) => c._id !== e.target.name));
+      try{
+        const enrollments =await unenrollUserToCourse(e.target.name);
+        setEnrolledCourses(enrollments);
+      }catch (error) {
+        console.error("Failed to unenroll in the course:", error);
+      }
     }
 
     useEffect(
@@ -83,14 +84,14 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
 
         {haveEditAccess ?
           <>
-            <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
+            <h2 id="wd-dashboard-published">Published Courses ({enrolledCourses.length})</h2> <hr />
           </> :
           <>
             <div className="d-flex justify-content-between align-items-center">
-              <h2 id="wd-dashboard-published">Courses ({courses.length})</h2>
+              <h2 id="wd-dashboard-published">Courses ({enrolledCourses ? enrolledCourses.length : 0})</h2>
               <button type="button" className="btn btn-primary" onClick={handleEnrollment}>
                 {
-                  isEnrolled ? "Enrolled" : "Enrollment"
+                  isEnrolled ? "Enrollment" : "Enrolled"
                 }
               </button>
             </div>
