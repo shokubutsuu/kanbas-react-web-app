@@ -13,7 +13,7 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
   }) {
   {
     const [isEnrolled, setIsEnrolled] = useState<any>(true);
-    const [enrolledCourses, setEnrolledCourses] = useState<any[]>();
+    const [enrolledCourses, setEnrolledCourses] = useState<any[]>(courses);
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     let haveEditAccess = currentUser.role === "FACULTY"
@@ -36,26 +36,27 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
         setIsEnrolled(true)
       }
     }
-
-    
-    const handleEnrollClick = (e: any) => {
+    const handleEnrollClick = async (e: any) => {
       if (!enrolledCourses?.find((c) => c._id === e.target.name)) {
-        const enrollments = enrollUserToCourse(e.target.name);
-        const addCourse = courses.filter((c) => c._id === e.target.name)
-        setEnrolledCourses(enrollments)
+        try {
+          const enrollments = await enrollUserToCourse(e.target.name); // Await the result
+          const addCourse = courses.filter((c) => c._id === e.target.name); // Filter courses
+          setEnrolledCourses([...enrolledCourses, ...addCourse]); // Update state properly
+        } catch (error) {
+          console.error("Failed to enroll in the course:", error);
+        }
       }
+    };
 
-    }
-
-    const handleUnenrollClick = (e: any) => {
-      unenrollUserToCourse(e.target.name)
+    const handleUnenrollClick = async(e: any) => {
+      await unenrollUserToCourse(e.target.name)
       setEnrolledCourses(enrolledCourses?.filter((c) => c._id !== e.target.name));
     }
 
     useEffect(
       () => {
         setEnrolledCourses(courses);
-      },[]
+      },[courses]
     )
 
     return (
