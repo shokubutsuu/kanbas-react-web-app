@@ -22,6 +22,7 @@ export default function App() {
           <Link to='/Labs/Lab2'>link to Lab2</Link><br />
           <Link to='/Labs/Lab3'>link to Lab3</Link><br />
           <Link to='/Labs/Lab4'>link to Lab4</Link><br />
+          <Link to='/Labs/Lab5'>link to Lab5</Link><br />
         </div>
       </Provider>  
     </HashRouter>

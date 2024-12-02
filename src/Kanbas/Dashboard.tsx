@@ -1,70 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import * as db from './Database'
 import { BsGripVertical } from 'react-icons/bs';
+import * as userClient from "./Account/client";
 
-export default function Dashboard({ courses, course, setCourse, addNewCourse,
+export default function Dashboard({ allCourses, courses, course, setCourse, addNewCourse,
   deleteCourse, updateCourse }: {
-
+    allCourses: any[];
     courses: any[]; course: any; setCourse: (course: any) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
     updateCourse: () => void;
   }) {
   {
-    const [enrolled, setEnrolled] = useState<any>();
+    const [isEnrolled, setIsEnrolled] = useState<any>(true);
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>();
-    const [enrollments, setEnrollments] = useState<any[]>(db.enrollments);
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     let haveEditAccess = currentUser.role === "FACULTY"
     
-    const getRandomInt = (max: any) => {
-      return Math.floor(Math.random() * max);
+    const enrollUserToCourse = async (courseId: string) =>{
+      const response = await userClient.enrollUserInCourse(courseId);
+      return response.data;
     }
+    const unenrollUserToCourse = async (courseId: string) =>{
+      const response = await userClient.unenrollUserInCourse(courseId);
+      return response.data;
+    }
+
     const handleEnrollment = () => {
-      if (enrolled === "Enrollment") {
+      if (isEnrolled) {
         console.log("enrollment clicked");
-        setEnrolled("Enrolled")
-      } else if (enrolled === "Enrolled") {
+        setIsEnrolled(false)
+      } else {
         console.log("enrolled clicked");
-        setEnrolled("Enrollment")
+        setIsEnrolled(true)
       }
     }
+
+    
     const handleEnrollClick = (e: any) => {
       if (!enrolledCourses?.find((c) => c._id === e.target.name)) {
+        const enrollments = enrollUserToCourse(e.target.name);
         const addCourse = courses.filter((c) => c._id === e.target.name)
-        setEnrolledCourses(prev => [...prev!, ...addCourse])
-        const newEnrollment = {
-          _id: getRandomInt(1000),
-          user: currentUser._id,
-          course: e.target.name
-        }
-        setEnrollments((prev) => [...prev, newEnrollment]);
+        setEnrolledCourses(enrollments)
       }
 
     }
 
     const handleUnenrollClick = (e: any) => {
-      console.log("unenroll clicked", e);
+      unenrollUserToCourse(e.target.name)
       setEnrolledCourses(enrolledCourses?.filter((c) => c._id !== e.target.name));
-      setEnrollments(enrollments?.filter((enrollment) => (!(enrollment.course === e.target.name && enrollment.user === currentUser._id))))
     }
 
     useEffect(
       () => {
-        setEnrolled("Enrollment");
-        if(haveEditAccess){
-          setEnrolledCourses(courses);
-        }else
-        {setEnrolledCourses(courses.filter(
-          (course) =>
-            enrollments.some(
-              (enrollment) =>
-                enrollment.user === currentUser._id && enrollment.course === course._id
-            )
-        ));}
-      }
+        setEnrolledCourses(courses);
+      },[]
     )
 
     return (
@@ -97,7 +88,9 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             <div className="d-flex justify-content-between align-items-center">
               <h2 id="wd-dashboard-published">Courses ({courses.length})</h2>
               <button type="button" className="btn btn-primary" onClick={handleEnrollment}>
-                {enrolled}
+                {
+                  isEnrolled ? "Enrolled" : "Enrollment"
+                }
               </button>
             </div>
             <hr />
@@ -107,7 +100,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
         <div id="wd-dashboard-courses" className="row">
 
           {
-            enrolled === "Enrollment" ?
+            isEnrolled ?
               (<div className="row row-cols-1 row-cols-md-5 g-4">
                 {enrolledCourses?.map((course) => (
                   <div className="wd-dashboard-course col" style={{ width: "300px" }}>
@@ -150,7 +143,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
               :
               (<div >
                 <ul className="wd-courses list-group rounded-0">
-                  {courses.map((course) => (
+                  {allCourses.map((course) => (
                     <li className="wd-course list-group-item p-3 ps-1">
                       <BsGripVertical className="me-2 fs-3" /> {course.name}
                       {enrolledCourses?.find((c) => {

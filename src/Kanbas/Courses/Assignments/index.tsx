@@ -6,7 +6,10 @@ import { BsGripVertical } from 'react-icons/bs';
 import { MdOutlineAssignment } from "react-icons/md";
 import { useParams, useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments, updateAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { useEffect } from "react";
 
 export default function Assignments() {
   const { pathname } = useLocation();
@@ -14,7 +17,21 @@ export default function Assignments() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  }
+  const removeAssignment = async(assignmentId : string) =>{
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId))
+  }
   let haveEditAccess = currentUser.role === "FACULTY";
+  useEffect(
+    () => {
+      fetchAssignments();
+    }, []
+  );
   return (
     <div>
       {haveEditAccess &&
@@ -50,7 +67,7 @@ export default function Assignments() {
 
                     <div className='col-2 center-icons'>
                       <LessonControlButtons hasEditAccess={haveEditAccess} assignmentId={assignment._id}
-                        deleteAssignment={(assignmentId) => { dispatch(deleteAssignment(assignmentId)) }} />
+                        deleteAssignment={(assignmentId)=>removeAssignment(assignmentId)} />
                     </div>
                   </div>
 

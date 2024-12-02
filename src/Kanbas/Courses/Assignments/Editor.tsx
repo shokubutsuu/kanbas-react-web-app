@@ -3,28 +3,37 @@ import { addAssignment, updateAssignment } from "./reducer";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { FaChevronDown } from "react-icons/fa";
+import * as assignmentsClient from "./client";
+import * as coursesClient from "../client";
 
 export default function AssignmentEditor() {
     const { cid, aid = null } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
-    const dispatch = useDispatch();
-    const [assignment, setAssignment] = useState<any>(null);
+    const [assignment, setAssignment] = useState<any>();
     const [isEditing, setIsEditing] = useState<any>(false);
+
+    const dispatch = useDispatch();
+    const saveAssignment = async (assignment: any) => {
+        await assignmentsClient.updateAssignment(assignment);
+        dispatch(updateAssignment(assignment));
+    }
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = { ...assignment, course: cid };
+        const returnedAssignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+        dispatch(addAssignment(returnedAssignment))
+    }
+
 
     // Preload the assignment data when the component loads
     useEffect(() => {
         if (aid != null) {
             const selectedAssignment = Array.isArray(assignments) ? assignments.find((assignment: any) => assignment._id === aid) : null;
-
             if (selectedAssignment) {
                 setAssignment(selectedAssignment);
                 setIsEditing(true);
             }
         } else {
-            setAssignment({
-                _id: new Date().getTime().toString(),
-                course: cid,
-            });
             setIsEditing(false);
         }
 
@@ -39,10 +48,11 @@ export default function AssignmentEditor() {
 
     const save = () => {
         if (isEditing) {
-            dispatch(updateAssignment(assignment));
+            saveAssignment(assignment);
             navigate(-1);
         } else {
-            dispatch(addAssignment(assignment));
+            createAssignmentForCourse();
+            setIsEditing(true);
             navigate(-1);
         }
 
