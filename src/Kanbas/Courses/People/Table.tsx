@@ -3,29 +3,52 @@ import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import * as coursesClient from "../client";
 import PeopleDetails from "./Details";
-import { Link } from "react-router-dom";
-export default function PeopleTable({ users = [] }: { users?: any[] }) {
-    // const { cid } = useParams();
-    // const [users, setUsers] = useState<any[]>([]);
-    // const fetchEnrolledUsers = async () => {
-    //     const enrolledUsers = await coursesClient.findEnrolledUsersForCourse(cid as string);
-    //     setUsers(enrolledUsers);
-    // };
+import { Link, useParams } from "react-router-dom";
+export default function PeopleTable({ users, cid}: { users?: any[] ; cid?: string}) {
 
-    // useEffect(
-    //     ()=>{
-    //         fetchEnrolledUsers();
-    //     }, [users]
-    // );
+    const [displayed, setDisplayed] = useState<any[]>([]);
+    
+    const handeUserUpdate = (user: any) => {
+        const index = displayed.findIndex(u => u.id === user.id);
+      
+        if (index !== -1) {
+          // User exists, update the user
+          const updatedUsers = [...displayed];
+          updatedUsers[index] = user; // Replace the existing user with the new user data
+          setDisplayed(updatedUsers);
+        } else {
+          // User does not exist, add new user
+          setDisplayed([...displayed, user]);
+        }
+      };
+      
+    useEffect(
+        
+        ()=>{
+            const fetchEnrolledUsers = async () => {
+                const enrolledUsers = await coursesClient.findEnrolledUsersForCourse(cid as string);
+                setDisplayed(enrolledUsers);
+            };
+            if(cid){
+                fetchEnrolledUsers();
+            }
+            else if(users !== undefined){
+                setDisplayed(users);
+            }else{
+                console.error("this shouldnt happen.");
+            }
+        }, 
+        []
+    );
     return (
         <div id="wd-people-table">
-            <PeopleDetails />
+            <PeopleDetails onUserUpdate={handeUserUpdate}/>
             <table className="table table-striped">
                 <thead>
                     <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
                 </thead>
                 <tbody>
-                    {users
+                    {displayed
                         .map((user: any) => (
                             <tr key={user._id}>
                                 <td className="wd-full-name text-nowrap">

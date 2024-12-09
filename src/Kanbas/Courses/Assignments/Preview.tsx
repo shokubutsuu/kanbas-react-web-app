@@ -2,20 +2,27 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { editAssignment, updateAssignment } from "./reducer";
+import { useEffect, useState } from "react";
 
 export default function AssignmentPreview() {
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const { aid } = useParams();
     const navigate = useNavigate();
     const {pathname} = useLocation();
-    const assignment = assignments.find((assignment: any) => assignment._id === aid)
+    const assignment = assignments.find((assignment: any) => assignment._id === aid);
+    const [haveEditAccess, setHaveEditAccess] = useState<boolean>(false);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    let hasEditAccess = currentUser.role === "FACULTY";
+    
     const submit = ()=>{
     }
     const edit = () => {
         navigate(pathname +"/Edit");
     }
+    useEffect(
+        () => {
+          setHaveEditAccess(currentUser.role === "FACULTY" || currentUser.role === "TA"|| currentUser.role === "ADMIN");
+        }, []
+      );
 
     return (
         <div id="wd-assignments-preview">
@@ -86,7 +93,7 @@ export default function AssignmentPreview() {
 
             </table >
             <hr />
-            {hasEditAccess ?
+            {haveEditAccess ?
                 <button className="btn btn-danger me-2" onClick={edit} style={{ float: "right" }}>Edit</button>
                 :
                 <button className="btn btn-danger me-2" onClick={submit} style={{ float: "right" }}>Submit Assignment</button>

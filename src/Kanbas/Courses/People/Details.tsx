@@ -6,15 +6,15 @@ import { FaPencil } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import * as client from "../../Account/client";
-export default function PeopleDetails() {
+export default function PeopleDetails({onUserUpdate}:any) {
     const { uid } = useParams();
     const [user, setUser] = useState<any>({});
     const navigate = useNavigate();
     const fetchUser = async () => {
         if (!uid) return;
         const user = await client.findUserById(uid);
+
         setUser(user);
-        console.log(user)
     };
     const deleteUser = async (uid: string) => {
         await client.deleteUser(uid);
@@ -25,11 +25,15 @@ export default function PeopleDetails() {
     const [email, setEmail] = useState("");
     const [editing, setEditing] = useState(false);
     const saveUser = async () => {
+        
         const [firstName, lastName] = name.split(" ");
         const updatedUser = { ...user, firstName, lastName, role, email };
+        onUserUpdate(updatedUser)
         await client.updateUser(updatedUser);
         setUser(updatedUser);
+        
         setEditing(false);
+        
         navigate(-1);
     };
 
@@ -81,7 +85,7 @@ export default function PeopleDetails() {
             <b>Section:</b>         <span className="wd-section">       {user.section}      </span> <br />
             <b>Total Activity:</b>  <span className="wd-total-activity">{user.totalActivity}</span> <br />
             <b>Email:</b>  {!editing && (
-               
+
                 <span onClick={() => setEditing(true)} className="wd-total-email">{user.email}</span>)}
             {user && editing && (
                 <input className="form-control w-50 wd-edit-name"

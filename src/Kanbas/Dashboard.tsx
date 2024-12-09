@@ -5,11 +5,13 @@ import { BsGripVertical } from 'react-icons/bs';
 import * as userClient from "./Account/client";
 
 export default function Dashboard({ allCourses, courses, course, setCourse, addNewCourse,
-  deleteCourse, updateCourse }: {
+  deleteCourse, updateCourse, enrolling, setEnrolling, updateEnrollment }: {
     allCourses: any[];
     courses: any[]; course: any; setCourse: (course: any) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
     updateCourse: () => void;
+    enrolling: boolean; setEnrolling: (enrolling: boolean) => void;
+    updateEnrollment: (courseId: string, enrolled: boolean) => void;
   }) {
   {
     const [isEnrolled, setIsEnrolled] = useState<any>(true);
@@ -17,39 +19,37 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     let haveEditAccess = currentUser.role === "FACULTY"
-    
-    const enrollUserToCourse = async (courseId: string) =>{
+
+    const enrollUserToCourse = async (courseId: string) => {
       const response = await userClient.enrollUserInCourse(courseId);
       return response;
     }
-    const unenrollUserToCourse = async (courseId: string) =>{
+    const unenrollUserToCourse = async (courseId: string) => {
       const response = await userClient.unenrollUserInCourse(courseId);
       return response;
     }
 
     const handleEnrollment = () => {
       if (isEnrolled) {
-        console.log("enrollment clicked");
         setIsEnrolled(false);
       } else {
-        console.log("enrolled clicked");
         setIsEnrolled(true);
       }
     }
     const handleEnrollClick = async (e: any) => {
       try {
-        const enrollments = await enrollUserToCourse(e.target.name); 
+        const enrollments = await enrollUserToCourse(e.target.name);
         setEnrolledCourses(enrollments); // Update state properly
       } catch (error) {
         console.error("Failed to enroll in the course:", error);
       }
     };
 
-    const handleUnenrollClick = async(e: any) => {
-      try{
-        const enrollments =await unenrollUserToCourse(e.target.name);
+    const handleUnenrollClick = async (e: any) => {
+      try {
+        const enrollments = await unenrollUserToCourse(e.target.name);
         setEnrolledCourses(enrollments);
-      }catch (error) {
+      } catch (error) {
         console.error("Failed to unenroll in the course:", error);
       }
     }
@@ -57,12 +57,16 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
     useEffect(
       () => {
         setEnrolledCourses(courses);
-      },[courses]
+      }, [courses]
     )
 
     return (
       <div id="wd-dashboard">
-        <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+        <h1 id="wd-dashboard-title">Dashboard
+          <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+            {enrolling ? "My Courses" : "All Courses"}
+          </button>
+        </h1> <hr />
         {haveEditAccess &&
           <>
             <h5>New Course
@@ -112,6 +116,17 @@ export default function Dashboard({ allCourses, courses, course, setCourse, addN
                         <img src="images/reactjs.jpg" width="100%" height={160} />
                         <div className="card-body">
                           <h5 className="wd-dashboard-course-title card-title">
+                            {enrolling && (
+                              <button
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  updateEnrollment(course._id, !course.enrolled);
+                                }}
+                                className={`btn ${course.enrolled ? "btn-danger" : "btn-success"} float-end`
+                                } >
+                                {course.enrolled ? "Unenroll" : "Enroll"}
+                              </button>
+                            )}
                             {course.name} </h5>
                           <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                             {course.description} </p>

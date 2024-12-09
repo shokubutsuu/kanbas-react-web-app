@@ -9,27 +9,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment, setAssignments, updateAssignment } from "./reducer";
 import * as coursesClient from "../client";
 import * as assignmentsClient from "./client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Assignments() {
   const { pathname } = useLocation();
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const [haveEditAccess, setHaveEditAccess] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const fetchAssignments = async () => {
     const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
     dispatch(setAssignments(assignments));
+    
   }
   const removeAssignment = async(assignmentId : string) =>{
     await assignmentsClient.deleteAssignment(assignmentId);
     dispatch(deleteAssignment(assignmentId))
   }
-  let haveEditAccess = currentUser.role === "FACULTY";
   useEffect(
     () => {
       fetchAssignments();
+      setHaveEditAccess(currentUser.role === "FACULTY" || currentUser.role === "TA"|| currentUser.role === "ADMIN");
     }, []
   );
   return (
@@ -50,7 +52,8 @@ export default function Assignments() {
 
           <ul className="wd-assignment-list list-group rounded-0">
             {
-              assignments.filter((assignment: any) => assignment.course === cid).map((assignment: any) => (
+             // assignments.filter((assignment: any) => assignment.course === cid).map((assignment: any) => (
+              assignments.map((assignment: any) => (
                 <li className="wd-assignment-list-item list-group-item p-3 ps-1 " >
                   <div className="row">
                     <div className="col-2 center-icons">

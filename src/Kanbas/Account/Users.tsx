@@ -45,10 +45,16 @@ export default function Users() {
         const users = await client.findAllUsers();
         setUsers(users);
     };
-
     useEffect(() => {
-        fetchUsers();
-    }, [uid]);
+        const temp = async () => {
+            const users = await client.findAllUsers();
+            setUsers(users);
+        }
+        temp()
+    }, [])
+    // useEffect(() => {
+    //      fetchUsers();
+    // }, [uid]);
     return (
         <div>
             <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
@@ -64,7 +70,12 @@ export default function Users() {
                 <option value="TA">Assistants</option> <option value="FACULTY">Faculty</option>
                 <option value="ADMIN">Administrators</option>
             </select>
-            <PeopleTable users={users} />
+            {
+                users.length > 0 ?
+                    <PeopleTable users={users} /> : 'loading'
+            }
+
+
         </div>
     );
 }
