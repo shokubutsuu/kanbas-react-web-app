@@ -46,7 +46,7 @@ export default function AssignmentEditor() {
         setAssignment({ ...assignment, [name]: value });
     };
 
-    const save = () => {
+    const handleSave = () => {
         if (isEditing) {
             saveAssignment(assignment);
             navigate(-1);
@@ -57,7 +57,7 @@ export default function AssignmentEditor() {
         }
 
     }
-    const cancel = () => {
+    const handleCancel = () => {
         navigate(-1);
     }
 
@@ -198,8 +198,8 @@ export default function AssignmentEditor() {
 
             </table >
             <hr />
-            <button className="btn btn-danger me-2" onClick={save} style={{ float: "right" }}>Save</button>
-            <button className="btn btn-secondary me-2" onClick={cancel} style={{ float: "right" }}>Cancel</button>
+            <button className="btn btn-danger me-2" onClick={handleSave} style={{ float: "right" }}>Save</button>
+            <button className="btn btn-secondary me-2" onClick={handleCancel} style={{ float: "right" }}>Cancel</button>
         </div >
     );
 }
